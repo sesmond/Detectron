@@ -89,11 +89,12 @@ def parse_args():
         help='output image even when no object is found',
         action='store_true'
     )
+    #TODO 这里把默认改为jpg输出
     parser.add_argument(
         '--output-ext',
         dest='output_ext',
-        help='output image file format (default: pdf)',
-        default='pdf',
+        help='output image file format (default: jpg)',
+        default='jpg',
         type=str
     )
     parser.add_argument(
@@ -160,7 +161,7 @@ def main(args):
                 ' \ Note: inference on the first image will be slower than the '
                 'rest (caches and auto-tuning need to warm up)'
             )
-
+        print("预测结果：",cls_boxes,cls_segms,cls_keyps)
         vis_utils.vis_one_image(
             im[:, :, ::-1],  # BGR -> RGB for visualization
             im_name,
