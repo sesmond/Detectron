@@ -46,13 +46,14 @@ def startup(app):
     conf.init_arguments()
     init_log()
 
-    _logger().debug('启动模式：%s,子进程:%s,父进程:%s,线程:%r', conf.MODE,os.getpid(), os.getppid(), current_thread())
+    # _logger().debug('启动模式：%s,子进程:%s,父进程:%s,线程:%r', conf.MODE,os.getpid(), os.getppid(), current_thread())
     #TODO
     # ocr_utils.init_single(conf.MODE)
 
     # 注册所有的处理器
     regist_processor(app)
     logger.info("启动完毕！")
+    print("qidongwanbi")
 
 # 配置所有的处理器
 def regist_processor(app):
