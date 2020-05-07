@@ -152,8 +152,8 @@ def main(args):
         img1,img2 = image_utils.split_two(im)
         base_name = os.path.basename(im_name)
         name_txt = os.path.splitext(base_name)[0]
-        single_process(args, dummy_coco_dataset, img1, name_txt + "1.jpg", model)
-        single_process(args, dummy_coco_dataset, img2, name_txt + "2.jpg", model)
+        single_process(args, dummy_coco_dataset, img1, base_name + "_1", model)
+        single_process(args, dummy_coco_dataset, img2, base_name + "_2", model)
 
 
 def single_process(args, dummy_coco_dataset, im, im_name, model):
