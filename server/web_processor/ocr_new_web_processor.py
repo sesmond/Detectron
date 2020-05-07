@@ -7,6 +7,7 @@ from server import conf
 from server.vo.request.ocr_request_vo import OcrRequest
 from server.vo.response.base_response import BaseResponse
 from server.service import detect_service
+from server.utils import json_utils
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class OcrNewWebProcessor(WebProcessor):
         try:
             ocr_request = OcrRequest()
             start = time.time()
-            # json_utils.json_deserialize(request.get_data(), ocr_request)
+            json_utils.json_deserialize(request.get_data(), ocr_request)
             logger.info("请求参数：%s", ocr_request)
             # 参数校验
             validate(ocr_request)
