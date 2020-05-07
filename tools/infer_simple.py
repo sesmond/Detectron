@@ -46,11 +46,14 @@ import detectron.datasets.dummy_datasets as dummy_datasets
 import detectron.utils.c2 as c2_utils
 import detectron.utils.vis as vis_utils
 
+from tools import image_utils
+
 c2_utils.import_detectron_ops()
 
 # OpenCL may be enabled by default in OpenCV3; disable it because it's not
 # thread safe and causes unwanted GPU memory allocations.
 cv2.ocl.setUseOpenCL(False)
+logger = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -121,7 +124,6 @@ def parse_args():
 
 
 def main(args):
-    logger = logging.getLogger(__name__)
 
     merge_cfg_from_file(args.cfg)
     cfg.NUM_GPUS = 1
@@ -141,42 +143,50 @@ def main(args):
     else:
         im_list = [args.im_or_folder]
 
-    for i, im_name in enumerate(im_list):
+    for im_name in im_list:
         out_name = os.path.join(
             args.output_dir, '{}'.format(os.path.basename(im_name) + '.' + args.output_ext)
         )
         logger.info('Processing {} -> {}'.format(im_name, out_name))
         im = cv2.imread(im_name)
-        timers = defaultdict(Timer)
-        t = time.time()
-        with c2_utils.NamedCudaScope(0):
-            cls_boxes, cls_segms, cls_keyps = infer_engine.im_detect_all(
-                model, im, None, timers=timers
-            )
-        logger.info('Inference time: {:.3f}s'.format(time.time() - t))
-        for k, v in timers.items():
-            logger.info(' | {}: {:.3f}s'.format(k, v.average_time))
-        if i == 0:
-            logger.info(
-                ' \ Note: inference on the first image will be slower than the '
-                'rest (caches and auto-tuning need to warm up)'
-            )
-        print("预测结果：",cls_boxes,cls_segms,cls_keyps)
-        vis_utils.vis_one_image(
-            im[:, :, ::-1],  # BGR -> RGB for visualization
-            im_name,
-            args.output_dir,
-            cls_boxes,
-            cls_segms,
-            cls_keyps,
-            dataset=dummy_coco_dataset,
-            box_alpha=0.3,
-            show_class=True,
-            thresh=args.thresh,
-            kp_thresh=args.kp_thresh,
-            ext=args.output_ext,
-            out_when_no_box=args.out_when_no_box
+        img1,img2 = image_utils.split_two(im)
+        base_name = os.path.basename(im_name)
+        name_txt = os.path.splitext(base_name)[0]
+        single_process(args, dummy_coco_dataset, img1, name_txt + "1.jpg", model)
+        single_process(args, dummy_coco_dataset, img2, name_txt + "2.jpg", model)
+
+
+def single_process(args, dummy_coco_dataset, im, im_name, model):
+    timers = defaultdict(Timer)
+    t = time.time()
+    with c2_utils.NamedCudaScope(0):
+        cls_boxes, cls_segms, cls_keyps = infer_engine.im_detect_all(
+            model, im, None, timers=timers
         )
+    logger.info('Inference time: {:.3f}s'.format(time.time() - t))
+    for k, v in timers.items():
+        logger.info(' | {}: {:.3f}s'.format(k, v.average_time))
+    # if i == 0:
+    #     logger.info(
+    #         ' \ Note: inference on the first image will be slower than the '
+    #         'rest (caches and auto-tuning need to warm up)'
+    #     )
+    print("预测结果：", cls_boxes, cls_segms, cls_keyps)
+    vis_utils.vis_one_image(
+        im[:, :, ::-1],  # BGR -> RGB for visualization
+        im_name,
+        args.output_dir,
+        cls_boxes,
+        cls_segms,
+        cls_keyps,
+        dataset=dummy_coco_dataset,
+        box_alpha=0.3,
+        show_class=True,
+        thresh=args.thresh,
+        kp_thresh=args.kp_thresh,
+        ext=args.output_ext,
+        out_when_no_box=args.out_when_no_box
+    )
 
 
 if __name__ == '__main__':
