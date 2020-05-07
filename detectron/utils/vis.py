@@ -302,8 +302,8 @@ def vis_one_image(
             plt.Rectangle((bbox[0], bbox[1]),
                           bbox[2] - bbox[0],
                           bbox[3] - bbox[1],
-                          fill=False, edgecolor='g',
-                          linewidth=0.5, alpha=box_alpha))
+                          fill=False, edgecolor='r',
+                          linewidth=1.0, alpha=box_alpha))
 
         if show_class:
             ax.text(
