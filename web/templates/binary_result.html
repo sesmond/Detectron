@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>二值化结果展示</title>
+    </style>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	</head>
+	<body>
+		{% include 'includes/_head.html' %}
+		<div class="container">
+            <h3 class="title">二值化图片</h3>
+            <div align="center">
+                <img src="data:image/jpg;base64,{{ result['image'] }}" width="80%">
+            </div>
+		</div>
+	</body>
+
+</html>

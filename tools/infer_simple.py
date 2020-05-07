@@ -172,7 +172,7 @@ def single_process(args, dummy_coco_dataset, im, im_name, model):
     #         'rest (caches and auto-tuning need to warm up)'
     #     )
     print("预测结果：", cls_boxes, cls_segms, cls_keyps)
-    vis_utils.vis_one_image(
+    new_img = vis_utils.vis_one_image(
         im[:, :, ::-1],  # BGR -> RGB for visualization
         im_name,
         args.output_dir,
@@ -187,6 +187,7 @@ def single_process(args, dummy_coco_dataset, im, im_name, model):
         ext=args.output_ext,
         out_when_no_box=args.out_when_no_box
     )
+    return new_img
 
 
 if __name__ == '__main__':

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>图片二值化</title>
+	</head>	
+	<body>
+	{% include 'includes/_head.html' %}
+
+	<div class="container">
+		<h3 class="title">图片二值化</h3>
+        <div>阈值说明：-1 自适应，>0根据阈值二值化，其他原样返回</div>
+		<div class="card"  align="center" >
+  			<div class="card-body"  align="center" >
+
+				<form  action="/binary.post" enctype="multipart/form-data" method="POST">
+					<div class="form-group">
+						<label>识别图片:</label>
+						<input type="file" name="image" multiple="multiple" />
+					</div>
+                    <div class="form-group">
+						<label>二值化阈值:</label>
+                        <input name="threshold" type="text"  placeholder="请填入-1~255的数字"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="转换"  class="btn btn-primary"/>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	</body>
+	<!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"> -->
+	<script type="text/javascript">
+	    document.getElementById("upload_file").onchange = function () {
+	        gen_base64();
+	    };
+	    function $_(id) {
+	            return document.getElementById(id);
+	    }
+	    function gen_base64() {
+	        var file = $_('upload_file').files[0];
+	        r = new FileReader();  //本地预览
+	        r.onload = function(){
+	            $_('base64_output').value = r.result;
+	        }
+	        r.readAsDataURL(file);    //Base64
+	    }
+	</script>
+</html>

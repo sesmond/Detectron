@@ -390,5 +390,8 @@ def vis_one_image(
                     alpha=0.7)
 
     output_name = os.path.basename(im_name) + '.' + ext
-    fig.savefig(os.path.join(output_dir, '{}'.format(output_name)), dpi=dpi)
+    out_file = os.path.join(output_dir, '{}'.format(output_name))
+    fig.savefig(out_file, dpi=dpi)
     plt.close('all')
+    new_img = cv2.imread(out_file)
+    return new_img
