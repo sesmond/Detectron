@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PORT=8080
+PORT=8086
 MODE=single
 
 echo "环境变量："
