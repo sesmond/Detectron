@@ -50,7 +50,9 @@ def init_log():
 
 
 def startup(app):
+
     init_log()
+
     conf.init_arguments()
     _logger().debug('启动子进程:%s,父进程:%s,线程:%r',os.getpid(), os.getppid(), current_thread())
     # 注册所有的处理器

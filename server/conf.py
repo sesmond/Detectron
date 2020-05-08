@@ -50,8 +50,12 @@ def init_arguments():
     import detectron.core.test_engine as infer_engine
     from detectron.core.config import merge_cfg_from_file
     import detectron.datasets.dummy_datasets as dummy_datasets
+    from caffe2.python import workspace
+
+    workspace.GlobalInit(['caffe2', '--caffe2_log_level=0'])
 
     merge_cfg_from_file("../models/config_X101.yaml")
+
     cfg.model_param = infer_engine.initialize_model_from_cfg("../models/model_final.pkl")
     cfg.dummy_coco_dataset = dummy_datasets.get_coco_dataset()
 
