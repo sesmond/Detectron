@@ -47,22 +47,37 @@ class Config:
 
 # 定义各类参数
 def init_arguments():
+    import cv2
     import detectron.core.test_engine as infer_engine
     from detectron.core.config import merge_cfg_from_file
     import detectron.datasets.dummy_datasets as dummy_datasets
     from caffe2.python import workspace
+    from detectron.utils.io import cache_url
+    from detectron.core.config import assert_and_infer_cfg
+    from detectron.core.config import cfg as de_cfg
 
     workspace.GlobalInit(['caffe2', '--caffe2_log_level=0'])
 
     merge_cfg_from_file("../models/config_X101.yaml")
 
-    cfg.model_param = infer_engine.initialize_model_from_cfg("../models/model_final.pkl")
+
+    de_cfg.NUM_GPUS = 1
+    weights ="../models/model_final.pkl"
+    weights = cache_url(weights, cfg.DOWNLOAD_CACHE)
+    assert_and_infer_cfg(cache_urls=False)
+
+    assert not de_cfg.MODEL.RPN_ONLY, \
+        'RPN models are not supported'
+    assert not de_cfg.TEST.PRECOMPUTED_PROPOSALS, \
+        'Models that require precomputed proposals are not supported'
+
+    cfg.model_param = infer_engine.initialize_model_from_cfg(weights)
     cfg.dummy_coco_dataset = dummy_datasets.get_coco_dataset()
 
     logger.info("参数初始化完成,启动模式：%s", 'single')
 
-
 cfg = Config()
+
 
 if __name__ == '__main__':
     Config()
