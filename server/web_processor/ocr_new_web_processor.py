@@ -17,8 +17,8 @@ def validate(ocr_request:OcrRequest):
        请求参数校验
        :return:
        """
-    if not ocr_request.detect_model:
-        raise ValueError("detect_model 不能为空")
+    # if not ocr_request.detect_model:
+    #     raise ValueError("detect_model 不能为空")
     if not ocr_request.img:
         raise ValueError("img 不能为空")
 
