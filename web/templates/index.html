@@ -8,32 +8,9 @@
   		{% include 'includes/_head.html' %}
   		
 		<div class="container" style="padding:20px">
-			<div class="alert alert-primary align-items-center" role="alert" align="center">
-				<a href="/ocr">单据整体识别测试</a>
-			</div>
             <div class="alert alert-primary align-items-center" role="alert" align="center">
-				<a href="/ocr_new">单据整体识别测试-新</a>
+				<a href="/ocr_new">表格检测</a>
 			</div>
-
-			<div class="alert alert-primary" role="alert"  align="center">
-				<a href="/crnn">CRNN汉字识别测试</a>
-			</div>
-
-			<div class="alert alert-primary" role="alert"  align="center">
-				<a href="/preprocess">单据预处理测试</a>
-			</div>
-
-			<div class="alert alert-primary" role="alert"  align="center">
-				<a href="/plate">车牌识别测试</a>
-			</div>
-	        <div class="alert alert-primary" role="alert"  align="center">
-				<a href="/binary">二值化测试</a>
-			</div>
-			<div class="alert alert-primary" role="alert"  align="center">
-				<a href="/correct">纠错测试</a>
-			</div>
-
-			<p>测试数据下载：<a href="{{ url_for('static', filename='demo/test.zip') }}"> 📄</a></p>
 			<p><a href="/api">API接口说明</a></p>
 			<p>版本: {{version}}</p>
 		</div>
