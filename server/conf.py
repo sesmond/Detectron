@@ -1,5 +1,14 @@
 import os, sys
 import logging
+import cv2
+import detectron.core.test_engine as infer_engine
+from detectron.core.config import merge_cfg_from_file
+import detectron.datasets.dummy_datasets as dummy_datasets
+from caffe2.python import workspace
+from detectron.utils.io import cache_url
+from detectron.core.config import assert_and_infer_cfg
+from detectron.core.config import cfg as de_cfg
+
 
 ################################################################
 #
@@ -47,14 +56,7 @@ class Config:
 
 # 定义各类参数
 def init_arguments():
-    import cv2
-    import detectron.core.test_engine as infer_engine
-    from detectron.core.config import merge_cfg_from_file
-    import detectron.datasets.dummy_datasets as dummy_datasets
-    from caffe2.python import workspace
-    from detectron.utils.io import cache_url
-    from detectron.core.config import assert_and_infer_cfg
-    from detectron.core.config import cfg as de_cfg
+
 
     workspace.GlobalInit(['caffe2', '--caffe2_log_level=0'])
 
@@ -63,7 +65,7 @@ def init_arguments():
 
     de_cfg.NUM_GPUS = 1
     weights ="../models/model_final.pkl"
-    weights = cache_url(weights, cfg.DOWNLOAD_CACHE)
+    weights = cache_url(weights, de_cfg.DOWNLOAD_CACHE)
     assert_and_infer_cfg(cache_urls=False)
 
     assert not de_cfg.MODEL.RPN_ONLY, \
