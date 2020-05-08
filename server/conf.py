@@ -1,5 +1,4 @@
 import os, sys
-from configparser import ConfigParser
 import logging
 
 ################################################################

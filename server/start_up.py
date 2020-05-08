@@ -16,7 +16,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 logger = logging.getLogger(__name__)
 
 def _logger():
-    return logging.getLogger("WebServer")
+    return logger
 
 @app.errorhandler(500)
 def internal_server_error_500(e):
@@ -30,26 +30,29 @@ def index():
     version = 1
     return render_template('index.html',version=version)
 
+
 def init_log():
-    level = logging.DEBUG,
+    level = logging.DEBUG
     _format = "%(levelname)s: %(asctime)s: %(filename)s:%(lineno)d行 %(message)s"
+    formatter = logging.Formatter(_format)
 
     print("设置日志等级：",level)
-
-    logging.basicConfig(
-        format=_format,
-        level=level,
-        handlers=[logging.StreamHandler()])
+    logger = logging.getLogger()
+    logger.setLevel(level)
+    t_handler = logging.StreamHandler()
+    t_handler.setLevel(level)
+    t_handler.setFormatter(formatter)
+    logger.addHandler(t_handler)
+    # logging.basicConfig(
+    #     format=_format,
+    #     level=level,
+    #     handlers=[logging.StreamHandler()])
 
 
 def startup(app):
-    conf.init_arguments()
     init_log()
-
-    # _logger().debug('启动模式：%s,子进程:%s,父进程:%s,线程:%r', conf.MODE,os.getpid(), os.getppid(), current_thread())
-    #TODO
-    # ocr_utils.init_single(conf.MODE)
-
+    conf.init_arguments()
+    _logger().debug('启动子进程:%s,父进程:%s,线程:%r',os.getpid(), os.getppid(), current_thread())
     # 注册所有的处理器
     regist_processor(app)
     logger.info("启动完毕！")
