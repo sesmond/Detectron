@@ -43,6 +43,6 @@ _CMD="MODE=$MODE gunicorn \
    > ./logs/console.log 2>&1"
 echo "启动服务："
 echo "$_CMD"
-eval $_CMD
+eval "nohup $_CMD &"
 exit 0
 
