@@ -20,8 +20,8 @@ $(function(){
 function submit_ocr() {
     var img_base64 = $("#file_base64").val()
     var detect_model  =$("#detect_model").val()
-    var do_correct  =$("#do_correct").val()
-    console.log(do_correct)
+    // var do_correct  =$("#do_correct").val()
+    // console.log(do_correct)
     //清空
     $("#small_table  tr:not(:first)").empty("");
     $("#big_image").attr("src","")
@@ -32,10 +32,11 @@ function submit_ocr() {
         dataType: 'json',
         contentType: "application/json",
         data:JSON.stringify({
-            'img':img_base64,
-            'do_correct': g_do_correct,
-            'detect_model':detect_model,
-            'do_verbose':true
+            'img':img_base64
+            // ,
+            // 'do_correct': g_do_correct,
+            // 'detect_model':detect_model,
+            // 'do_verbose':true
         }),
         success: function(res){
             debugger
@@ -59,8 +60,9 @@ function load_images(images) {
 
     images.forEach(function (e,i,array) {
         // console.log(i)
-
+        var line_num = i+1
         var $tr ='<tr>'
+              +'<td width="10%">'+line_num+'</td>'
               +'<td width="90%" align="left"><img style="min-height:20px;max-width:95%" src="data:image/jpg;base64,'+e+'"></td>'
             +'</tr>'
         $table.append($tr)

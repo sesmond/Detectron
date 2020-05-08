@@ -5,7 +5,7 @@
          <link rel="stylesheet" href="static/css/common.css">
         <script type="text/javascript" src="static/lib/jquery.min.js"></script>
 
-        <script type="text/javascript" src="static/js/ocr_new_index.js?v=200" ></script>
+        <script type="text/javascript" src="static/js/ocr_new_index.js?v=300" ></script>
     </head>
 
 	<body>
@@ -25,7 +25,7 @@
     						<input type="file" id="upload_file" name="image" multiple="multiple" />
                             </dd>
                         </dl>
-                        <dl>
+                       {# <dl>
                             <dt>二值化阈值:</dt>
                             <dd class="dd-input-margin-right">
                                 <input name="threshold" type="text"  />
@@ -44,7 +44,7 @@
                                 <a href="javascript:;" id="model_psenet" onclick="queryModel('psenet',this.id);">psenet</a>
                                 <a href="javascript:;" id="model_ctpn"  onclick="queryModel('ctpn',this.id);">ctpn</a>
                             </dd>
-                        </dl>
+                        </dl>#}
                      <div class="tx-r  pdt30">
                         <input type="button" value="识别" id="submit_ocr"  class="btn btn-primary"/>
                      </div>
@@ -62,6 +62,7 @@
     <div align="center">
         <table id="small_table" border="1" style="min-width:980px;width:80%;margin: 0 auto;">
           <tr>
+              <th width="10%">序号</th>
               <th width="90%">检测结果</th>
           </tr>
         </table>
