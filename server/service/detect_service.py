@@ -7,9 +7,23 @@
 @Time    : 2020/5/7 11:11 下午
 @Version : 1.0 
 '''
+import argparse
+
 from tools import infer_simple, image_utils
 from server.conf import cfg
 from server.vo.request.ocr_request_vo import OcrRequest
+import sys
+
+
+class TempArgs:
+    """
+    OCR 请求报文
+    """
+    output_dir = "data/output"
+    thresh = 0.2
+    kp_thresh = 1.0
+    output_ext = ".jpg"
+    out_when_no_box = False
 
 
 def detect(request: OcrRequest):
@@ -18,7 +32,7 @@ def detect(request: OcrRequest):
     model = cfg.model_param
     img1, img2 = image_utils.split_two(img)
     base_name = "test.jpg"
-    args={}
+    args = TempArgs()
     args.output_dir="data/output"
     args.thresh = 0.2
     args.kp_thresh= 1.0
@@ -31,3 +45,7 @@ def detect(request: OcrRequest):
     result_base64.append(image_utils.nparray2base64(new_img1))
     result_base64.append(image_utils.nparray2base64(new_img2))
     return result_base64
+
+
+if __name__ == '__main__':
+    print("")
