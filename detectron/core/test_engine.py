@@ -220,7 +220,7 @@ def test_net(
     proposal_file,
     output_dir,
     ind_range=None,
-    gpu_id=0
+    gpu_id=1
 ):
     """Run inference on all images in a dataset or over an index range of images
     in a dataset using a single GPU.
@@ -320,7 +320,7 @@ def test_net(
     return all_boxes, all_segms, all_keyps
 
 
-def initialize_model_from_cfg(weights_file, gpu_id=0):
+def initialize_model_from_cfg(weights_file, gpu_id=1):
     """Initialize a model from the global cfg. Loads test-time weights and
     creates the networks in the Caffe2 workspace.
     """
